@@ -1,0 +1,29 @@
+﻿@model ForumOnAnyTopic.Models.Post
+
+@{
+    ViewData["Title"] = "Edit post";
+}
+
+<h4>Edit your post</h4>
+<form asp-action="Edit">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="Id" />
+    <div class="form-group">
+        <label asp-for="Massage" class="control-label"></label>
+        <textarea asp-for="Massage" class="form-control w-100" rows="4"></textarea>
+        <span asp-validation-for="Massage" class="text-danger"></span>
+    </div>
+    <input type="hidden" asp-for="CreatDate" />
+    <input type="hidden" asp-for="TopicId" />
+    <input type="hidden" asp-for="UserId" />
+    <div class="form-group">
+       <input type="submit" value="Save" class="btn btn-primary" />
+     </div>
+</form>
+<div>
+    <a asp-controller="Topic" asp-action="Details" asp-route-id="@Model.TopicId">Back to posts</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

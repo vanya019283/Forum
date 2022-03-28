@@ -1,0 +1,27 @@
+﻿@model IEnumerable<ForumOnAnyTopic.Models.Topic>
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<h3>Topics for discussion on the forum</h3>
+<div class="list-group">
+    @foreach (var item in Model)
+    {
+        <a class="list-group-item list-group-item-action flex-column align-items-start" asp-controller="Topic" asp-action="Details" asp-route-id="@item.Id">
+        <div class="d-flex w-100 justify-content-between">
+            <h5 class="mb-1">@item.Name</h5>
+            <small class="text-muted">@item.CreatedDate.ToShortDateString()</small>
+        </div>
+        <p class="mb-1">@item.Description</p>
+        <small class="text-muted">
+            @if (User.Identity.Name == item.User.Email)
+                    {
+                        <a asp-controller="Topic" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                        <span> | </span>
+                        <a asp-controller="Topic" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    }
+        </small>
+        </a>
+    }
+</div>

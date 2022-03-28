@@ -1,0 +1,63 @@
+﻿@model KeyValuePair<Topic, List<Post>>
+
+@{
+    ViewData["Title"] = "Topic details";
+    
+}
+
+<div class="clearfix m-2">
+  <h4 class="float-left">Topic</h4>
+  <a asp-controller="Home" asp-action="Index" class="btn btn-primary float-right">Back to list topics</a>
+</div>
+<div class="card text-center">
+  <div class="card-header">
+    <div class="clearfix">
+        <div class="float-left">
+          @Model.Key.User.FirstName @Model.Key.User.LastName
+        </div>
+        <div class="float-right">
+          @Model.Key.CreatedDate.ToShortDateString()
+        </div>
+      </div>
+  </div>
+  <div class="card-body">
+    <h5 class="card-title">@Model.Key.Name</h5>
+    <p class="card-text">@Model.Key.Description</p>
+  </div>
+</div>
+<small class="text-muted">
+    @if (Model.Key.User.Email == User.Identity.Name)
+    {
+        <a asp-controller="Topic" asp-action="Edit" asp-route-id="@Model.Key.Id">Edit</a>
+    }
+</small>
+<div class="clearfix m-2">
+    <h4 class="float-left">Posts</h4>
+    @if (User.Identity.Name != null)
+    {
+        <a asp-controller="Post" asp-action="Create" asp-route-topicId="@Model.Key.Id" class="btn btn-primary float-right">Add new post</a>
+    }
+</div>
+<hr />
+
+@foreach (var item in Model.Value) {
+    <div class="card mt-1">
+      <div class="card-header p-0" style="height: 25px">
+        <div class="clearfix mx-2">
+            <small class="card-title float-left">@item.User.FirstName @item.User.LastName</small>
+            <small class="card-title float-right">@item.CreatDate.ToShortDateString()</small>
+        </div>
+      </div>
+      <div class="card-body p-0">
+        <p class="card-text m-2">@item.Massage</p>
+      </div>
+    </div>
+    <small class="text-muted">
+        @if (item.User.Email == User.Identity.Name)
+        {
+            <a asp-controller="Post" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+            <span> | </span>
+            <a asp-controller="Post" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+        }
+    </small>
+}

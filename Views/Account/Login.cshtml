@@ -1,0 +1,25 @@
+﻿@model ForumOnAnyTopic.Models.LoginModel
+
+<h2>Login to your Account</h2>
+
+<form asp-action="Login" asp-controller="Account" asp-anti-forgery="true">
+    <div class="validation" asp-validation-summary="ModelOnly"></div>
+    <div>
+        <div class="form-group">
+            <label asp-for="Email" class="control-label">Email: </label>
+            <input type="email" asp-for="Email" class="form-control"/>
+            <span asp-validation-for="Email" class="text-danger"/>
+        </div>
+        <div class="form-group">
+            <label asp-for="Password" class="control-label">Password: </label>
+            <input asp-for="Password" class="form-control"/>
+            <span asp-validation-for="Password" class="text-danger"/>
+        </div>
+        <div class="form-group">
+            <a asp-action="Register" asp-controller="Account" class="btn btn-link">Registration</a>
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Login" class="btn btn-primary" />
+        </div>
+    </div>
+</form>
