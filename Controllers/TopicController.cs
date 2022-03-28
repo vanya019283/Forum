@@ -33,7 +33,7 @@ namespace ForumOnAnyTopic.Controllers
             if (topic == null)
                 return NotFound();
 
-            var posts = await _context.Posts.Include(p => p.Topic).Include(p => p.User).ToListAsync();
+            var posts = await _context.Posts.Include(p => p.Topic).Include(p => p.User).Where(p => p.TopicId == id).ToListAsync();
             return View(new KeyValuePair<Topic, List<Post>>(topic, posts));
         }
 
@@ -135,10 +135,10 @@ namespace ForumOnAnyTopic.Controllers
         {
             return _context.Topics.Any(e => e.Id == id);
         }
-        private async void UserNameInViewData()
+        private void UserNameInViewData()
         {
             if (ViewData["UserName"] == null && User.Identity.Name != null)
-                ViewData["UserName"] = (await _context.Users.FirstOrDefaultAsync(u => u.Email == User.Identity.Name)).FirstName;
+                ViewData["UserName"] = (_context.Users.FirstOrDefault(u => u.Email == User.Identity.Name)).FirstName;
         }
     }
 }

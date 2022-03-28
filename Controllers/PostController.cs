@@ -125,10 +125,10 @@ namespace ForumOnAnyTopic.Controllers
         {
             return _context.Posts.Any(e => e.Id == id);
         }
-        private async void UserNameInViewData()
+        private void UserNameInViewData()
         {
             if (ViewData["UserName"] == null && User.Identity.Name != null)
-                ViewData["UserName"] = (await _context.Users.FirstOrDefaultAsync(u => u.Email == User.Identity.Name)).FirstName;
+                ViewData["UserName"] = (_context.Users.FirstOrDefault(u => u.Email == User.Identity.Name)).FirstName;
         }
     }
 }

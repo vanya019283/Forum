@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace ForumOnAnyTopic.Controllers
@@ -22,8 +23,8 @@ namespace ForumOnAnyTopic.Controllers
         public async Task<IActionResult> Index()
         {
             UserNameInViewData();
-            var topics = _context.Topics.Include(t => t.User);
-            return View(await topics.ToListAsync());
+            var topics = await _context.Topics.Include(t => t.User).ToListAsync();
+            return View(topics);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
@@ -31,10 +32,10 @@ namespace ForumOnAnyTopic.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
-        private async void UserNameInViewData()
+        private void UserNameInViewData()
         {
             if (ViewData["UserName"] == null && User.Identity.Name != null)
-                ViewData["UserName"] = (await _context.Users.FirstOrDefaultAsync(u => u.Email == User.Identity.Name)).FirstName;
+                ViewData["UserName"] = (_context.Users.FirstOrDefault(u => u.Email == User.Identity.Name)).FirstName;
         }
     }
 }
